@@ -23,7 +23,7 @@ class RunnerTest(unittest.TestCase):
     def test_walk(self):
         run_ = Runner('run1')
         for i in range(10):
-            run_.run()
+            run_.walk()
         self.assertEqual(run_.distance, 50)
 
 # test_run - метод, в котором создаётся объект класса Runner с произвольным именем. Далее вызовите метод run у
@@ -42,7 +42,7 @@ class RunnerTest(unittest.TestCase):
         for _ in range(10):
             run_3.walk()
             run_4.run()
-        self.assertEqual(run_3.distance, run_4.distance)
+        self.assertNotEqual(run_3.distance, run_4.distance)
 # Запустите кейс RunnerTest. В конечном итоге все 3 теста должны пройти проверку.
     if __name__ == "__main__":
         unittest.main()
