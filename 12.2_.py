@@ -4,7 +4,8 @@
 # Появился атрибут speed для определения скорости бегуна.
 # Метод __eq__ для сравнивания имён бегунов.
 # Переопределены методы run и walk, теперь изменение дистанции зависит от скорости.
-# Класс Tournament представляет собой класс соревнований, где есть дистанция, которую нужно пробежать и список участников.
+# Класс Tournament представляет собой класс соревнований, где есть дистанция, которую нужно пробежать
+# и список участников.
 # Также присутствует метод start, который реализует логику бега по предложенной дистанции.
 import unittest
 class Runner:
@@ -53,15 +54,15 @@ class TournamentTest(unittest.TestCase):
 
     # tearDownClass - метод, где выводятся all_results по очереди в столбец.
     @classmethod
-    def SetUpClass(cls):
+    def setUpClass(cls):
         cls.all_results = {}
 
     # setUpClass - метод, где создаётся атрибут класса all_results. Это словарь в который
     # будут сохраняться результаты всех тестов.
     def setUp(self):
-        h_run = Runner('Усэйн', 10)
-        a_run = Runner('Андрей', 9)
-        n_run = Runner('Ник', 3)
+        self.h_run = Runner('Усэйн', 10)
+        self.a_run = Runner('Андрей', 9)
+        self.n_run = Runner('Ник', 3)
 
 
 # tearDownClass - метод, где выводятся all_results по очереди в столбец.
@@ -73,21 +74,20 @@ class TournamentTest(unittest.TestCase):
     def test_first_tournament(self):
         tournament = Tournament(90, self.h_run, self.n_run)
         results = tournament.start()
-
-TournamentTest.all_variants[1] = results
-self.assertTrue(result[2] = 'Ник')
+        TournamentTest.all_results[1] = results
+        self.assertTrue(results[2] == 'Ник')
 
     def test_second_tournament(self):
         tournament = Tournament(90, self.a_run, self.n_run)
         results = tournament.start()
-TournamentTest.all_variants[2] = results
-        self.assertTrue(result[2] = 'Ник')
+        TournamentTest.all_results[2] = results
+        self.assertTrue(results[2] == 'Ник')
 
     def test_third_tournament(self):
         tournament = Tournament(90, self.h_run, self.a_run, self.n_run)
         results = tournament.start()
-TournamentTest.all_variants[3] = results
-        self.assertTrue(result[3] = 'Ник')
+        TournamentTest.all_results[3] = results
+        self.assertTrue(results[3] == 'Ник')
 
 
 #
