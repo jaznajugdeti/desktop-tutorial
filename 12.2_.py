@@ -28,6 +28,8 @@ class Runner:
             return self.name == other
         elif isinstance(other, Runner):
             return self.name == other.name
+    def __repr__(self):
+        return self.name
 
 
 class Tournament:
@@ -49,6 +51,30 @@ class Tournament:
         return finishers
 
 import unittest
+
+class RunnerTest(unittest.TestCase):
+
+    def test_walk(self):
+        run_ = Runner('run1')
+        for i in range(10):
+            run_.walk()
+        self.assertEqual(run_.distance, 50)
+
+
+    def test_run(self):
+        run_2 = Runner('run2')
+        for _ in range(10):
+            run_2.run()
+        self.assertEqual(run_2.distance, 100)
+
+    def test_challenge(self):
+        run_3 = Runner('run3')
+        run_4 = Runner('run4')
+        for _ in range(10):
+            run_3.walk()
+            run_4.run()
+        self.assertNotEqual(run_3.distance, run_4.distance)
+
 
 class TournamentTest(unittest.TestCase):
 
