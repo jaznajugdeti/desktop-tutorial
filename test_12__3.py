@@ -4,81 +4,56 @@
 # is_frozen = False будет выполнять тесты, а is_frozen = True - пропускать и выводить сообщение
 # 'Тесты в этом кейсе заморожены'.
 import unittest
-
-class Runner:
-    def __init__(self, name, speed=5):
-        self.name = name
-        self.distance = 0
-        self.speed = speed
-
-    def run(self):
-        self.distance += self.speed * 2
-
-    def walk(self):
-        self.distance += self.speed
-
-    def __str__(self):
-        return self.name
-
-    def __eq__(self, other):
-        if isinstance(other, str):
-            return self.name == other
-        elif isinstance(other, Runner):
-            return self.name == other.name
-
-
-class Tournament:
-    def __init__(self, distance, *participants):
-        self.full_distance = distance
-        self.participants = list(participants)
-
-
-    def start(self):
-        finishers = {}
-        place = 1
-        while self.participants:
-            for participant in self.participants:
-                participant.run()
-                if participant.distance >= self.full_distance:
-                    finishers[place] = participant
-                    place += 1
-                    self.participants.remove(participant)
-
-        return finishers
+from rt_with_exeptions import Runner, Tournament
 import unittest
 
 class TournamentTest(unittest.TestCase):
-
-    # tearDownClass - метод, где выводятся all_results по очереди в столбец.
+    is_frozen = True
+# setUpClass - метод, где создаётся атрибут класса all_results. Это словарь в который
+# будут сохраняться результаты всех тестов.
     @classmethod
-    def tearDownClass(cls):
-        cls.all_results = {}
-
-    # setUpClass - метод, где создаётся атрибут класса all_results. Это словарь в который
-    # будут сохраняться результаты всех тестов.
-    @unittest.skipIf(True, 'работает')
+    def setUpClass(cls):
+        cls.all_results = []
+        
+    @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены')
     def setUp(self):
-        h_run = Runner('Усэйн', 10)
-        a_run = Runner('Андрей', 9)
-        n_run = Runner('Ник', 3)
+        self.h_run = Runner('Усэйн', 10)
+        self.a_run = Runner('Андрей', 9)
+        self.n_run = Runner('Ник', 3)
 
 # tearDownClass - метод, где выводятся all_results по очереди в столбец.
     @classmethod
     def tearDownClass(cls):
-        for key, value in cls.all_results.items():
-            print(f'{key}: {value}')
+        for i, elem in enumerate(cls.all_results):
+            print(f'{i + 1}. {elem}')
 
-    @unittest.skipIf(True, 'работает')
-    def test_run(self):
-        test_r1 = Tournament(90, self.h_run, self.n_run)
-        result = test_r1.start()
-        self.assertTrue(result[list(result.keys())[-1]])
-        self.all_results['test_r1'] = result
+    @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены')
+    def test_first_tournament(self):
+        tournament = Tournament(90, self.h_run, self.n_run)
+        results = tournament.start()
+        TournamentTest.all_results[1] = results
+        self.assertTrue(results[2] == 'Ник')
+
+    @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены')
+    def test_second_tournament(self):
+        tournament = Tournament(90, self.a_run, self.n_run)
+        results = tournament.start()
+        TournamentTest.all_results[2] = results
+        self.assertTrue(results[2] == 'Ник')
+
+    @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены')
+    def test_third_tournament(self):
+        tournament = Tournament(90, self.h_run, self.a_run, self.n_run)
+        results = tournament.start()
+        TournamentTest.all_results[3] = results
+        self.assertTrue(results[3] == 'Ник')
+
 class RunnerTest(unittest.TestCase):
+    is_frozen = False
 
 # test_walk - метод, в котором создаётся объект класса Runner с произвольным именем. Далее вызовите метод walk у
 # этого объекта 10 раз. После чего методом assertEqual сравните distance этого объекта со значением 50.
-    @unittest.skipIf(False, 'пропуск')
+    @unittest.skipIf(is_frozen, 'Тесты не заморожены')
     def test_walk(self):
         run_ = Runner('run1')
         for i in range(10):
@@ -87,7 +62,7 @@ class RunnerTest(unittest.TestCase):
 
 # test_run - метод, в котором создаётся объект класса Runner с произвольным именем. Далее вызовите метод run у
 # этого объекта 10 раз. После чего методом assertEqual сравните distance этого объекта со значением 100.
-    @unittest.skipIf(False, 'пропуск')
+    @unittest.skipIf(is_frozen, 'Тесты не заморожены')
     def test_run(self):
         run_2 = Runner('run2')
         for _ in range(10):
@@ -96,7 +71,7 @@ class RunnerTest(unittest.TestCase):
 # test_challenge - метод в котором создаются 2 объекта класса Runner с произвольными именами. Далее 10 раз
 # у объектов вызываются методы run и walk соответственно. Т.к. дистанции должны быть разными, используйте
 # метод assertNotEqual, чтобы убедится в неравенстве результатов.
-    @unittest.skipIf(False, 'пропуск')
+    @unittest.skipIf(is_frozen, 'Тесты не заморожены')
     def test_challenge(self):
         run_3 = Runner('run3')
         run_4 = Runner('run4')
